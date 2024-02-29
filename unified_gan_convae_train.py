@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0,'/content/tsad/tsad')
+sys.path.insert(0,'./tsad/tsad')
 from utils.evaluating.evaluating import evaluating
 import os
 from Conv_AE import Conv_AE
