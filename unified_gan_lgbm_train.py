@@ -80,7 +80,7 @@ def smooth_curve(x):
 def main():
   #loading the dataset
   all_files=[]
-  for dirname,_,filenames in os.walk('/data/skab'):
+  for dirname,_,filenames in os.walk('./data/SKAB'):
       for filename in filenames:
           if filename.endswith('csv'):
               all_files.append(f'{dirname}/{filename}')
