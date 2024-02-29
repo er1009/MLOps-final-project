@@ -18,7 +18,6 @@ from sklearn.metrics import confusion_matrix
 import random
 import torch
 
-
 def lgb_train_predict(x_train,y_train,x_valid,y_valid,x_test,y_test,params, \
                       test_flag=False):
 
@@ -93,7 +92,7 @@ def main():
   
   #concatenate data(order in time series by sort_index)
   valve1_data=pd.concat(list(valve1_dat.values()),axis=0).sort_index()
-  display(valve1_data.head(5))
+  # display(valve1_data.head(5))
   
   #train_pre(valve1_data is dataframe)
   train_pre=valve1_data
@@ -126,34 +125,26 @@ def main():
   x_test=x_test_pre.drop('changepoint',axis=1)
   y_test=test['anomaly'].values
 
-
-  train_pre=valve1_data
-  #train_pre ⇒ train:valid_pre=7:3
-  train_pre_size=len(train_pre)
-  train_size=int(train_pre_size*0.7)
-  train=train_pre[0:train_size]
-  x_train_pre=train.drop('anomaly',axis=1)
-  x_train=x_train_pre.drop('changepoint',axis=1)
-  
   features = x_train.to_numpy()
   # Obsevations every second, so 60 * 1 second = 1 minute
   n = features.shape[0] // 60
   features = features[:(n*60),:].reshape(-1, 60, features.shape[1])
   # Shape is now (# examples, # time points, # features)
-  print(features.shape)
+  # print(features.shape)
 
   dgan_model = DGAN(DGANConfig(
-      max_sequence_len=features.shape[1],
-      sample_len=60,
-      batch_size=min(1000, features.shape[0]),
-      apply_feature_scaling=True,
-      apply_example_scaling=False,
-      use_attribute_discriminator=False,
-      generator_learning_rate=1e-4,
-      discriminator_learning_rate=1e-4,
-      epochs=1000,
+    max_sequence_len=60,
+    sample_len=12,
+    batch_size=min(1000, 1000),
+    apply_feature_scaling=True,
+    apply_example_scaling=False,
+    use_attribute_discriminator=False,
+    generator_learning_rate=1e-4,
+    discriminator_learning_rate=1e-4,
+    epochs=15000,
   ))
-  dgan_model.load('models/unified/model_15000_valve1.pth',map_location=torch.device('cpu'))
+
+  dgan_model = dgan_model.load('models/unified/model_15000_valve1.pth',map_location=torch.device('cpu'))
   NUMBER_OF_SAMPLES_TO_GENERATE = 100 
   _, synthetic_features = dgan_model.generate_numpy(NUMBER_OF_SAMPLES_TO_GENERATE)
   synthetic_data = pd.DataFrame(synthetic_features.reshape(NUMBER_OF_SAMPLES_TO_GENERATE*60,features.shape[2]),columns=x_train.columns)
@@ -298,4 +289,7 @@ def main():
   print('test_f1score:' + str(test_f1score))
   print('test_confusionMatrix')
   display(test_cm)
+
+if __name__ == '__main__':
+  main()
   
