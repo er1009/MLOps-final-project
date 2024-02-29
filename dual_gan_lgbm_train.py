@@ -156,8 +156,27 @@ def main():
     epochs=3000,
 ))
 
-  model_0 = model_0.load("models/unified/model_15000_valve1.pth",map_location=torch.device('cpu'))
-  model_1 = model_0.load("/content/model_0_15000_valve1.pth",map_location=torch.device('cpu'))
+  model_0 = model_0.load("models/dual/model_0_15000_valve1.pth",map_location=torch.device('cpu'))
+  model_1 = model_0.load("models/dual/model_1_15000_valve1.pth",map_location=torch.device('cpu'))
+
+  anomaly_df = pd.DataFrame()
+  ROUNDS=5
+  NON_ANOMALY_SAMPLES = 20
+  ANOMALY_SAMPLES = 6
+  
+  for round in range(ROUNDS):
+      _,non_anomaly_data = model_0.generate_numpy(NON_ANOMALY_SAMPLES)
+      _,anomaly_data = model_1.generate_numpy(ANOMALY_SAMPLES)
+      non_anomaly_data = non_anomaly_data.reshape(NON_ANOMALY_SAMPLES*60,8)
+      anomaly_data = anomaly_data.reshape(ANOMALY_SAMPLES*60,8)
+      non_anomaly_data_df = pd.DataFrame(non_anomaly_data,columns=x_train.columns)
+      non_anomaly_data_df['anomaly'] = 0
+      anomaly_data_df = pd.DataFrame(anomaly_data,columns=x_train.columns)
+      anomaly_data_df['anomaly'] = 1
+  
+      anomaly_df = pd.concat([anomaly_df,pd.concat([non_anomaly_data_df,anomaly_data_df],axis=0)],axis=0)
+
+  synthetic_data = anomaly_df.reset_index().drop('index',axis=1)
   
   train_pre=valve1_data
   #train_pre ⇒ train:valid_pre=7:3
