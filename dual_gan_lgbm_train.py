@@ -17,6 +17,9 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import confusion_matrix
 import random
 import torch
+ROUNDS=5
+NON_ANOMALY_SAMPLES = 20
+ANOMALY_SAMPLES = 6
 
 def lgb_train_predict(x_train,y_train,x_valid,y_valid,x_test,y_test,params, \
                       test_flag=False):
@@ -160,9 +163,7 @@ def main():
   model_1 = model_0.load("models/dual/model_1_15000_valve1.pth",map_location=torch.device('cpu'))
 
   anomaly_df = pd.DataFrame()
-  ROUNDS=5
-  NON_ANOMALY_SAMPLES = 20
-  ANOMALY_SAMPLES = 6
+
   
   for round in range(ROUNDS):
       _,non_anomaly_data = model_0.generate_numpy(NON_ANOMALY_SAMPLES)
