@@ -35,7 +35,7 @@ def get_synth_data(NUMBER_OF_SAMPLES_TO_GENERATE,cols):
 
 def create_sequences(values, time_steps=N_STEPS):
     output = []
-    for i in range(len() - time_steps + 1):
+    for i in range(len(values) - time_steps + 1):
         output.append(values[i : (i + time_steps)])
     return np.stack(output)
 
