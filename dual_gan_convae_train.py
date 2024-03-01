@@ -27,7 +27,7 @@ NON_ANOMALY = 2 ## Muiltiple by 60 to get the actual number of samples
 ANOMALY = 1 ## Muiltiple by 60 to get the actual number of samples
 ROUNDS = 2
 
-def get_synth_data_from_syntheizers(NON_ANOMALY_SAMPLES,ANOMALY_SAMPLES,ROUNDS,cols):
+def get_synth_data_from_syntheizers(NON_ANOMALY_SAMPLES,ANOMALY_SAMPLES,ROUNDS,cols,model_0,model_1):
     anomaly_df = pd.DataFrame()
 
     for round in range(ROUNDS):
@@ -67,7 +67,7 @@ def main():
                               parse_dates=True)
 
 
-  dgan_model = DGAN(DGANConfig(
+  model_0 = DGAN(DGANConfig(
     max_sequence_len=60,
     sample_len=12,
     batch_size=min(1000, 1000),
@@ -78,7 +78,20 @@ def main():
     discriminator_learning_rate=1e-4,
     epochs=15000,
 ))
-  dgan_model = dgan_model.load("models/unified/model_15000_valve1.pth",map_location=torch.device('cpu'))
+  model_1 = DGAN(DGANConfig(
+    max_sequence_len=60,
+    sample_len=12,
+    batch_size=min(1000, 1000),
+    apply_feature_scaling=True,
+    apply_example_scaling=False,
+    use_attribute_discriminator=False,
+    generator_learning_rate=1e-4,
+    discriminator_learning_rate=1e-4,
+    epochs=15000,
+))
+    
+  model_0 = model_0.load("models/dual/model_0_15000_valve1.pth",map_location=torch.device('cpu'))
+  model_1 = model_0.load("models/dual/model_1_15000_valve1.pth",map_location=torch.device('cpu'))
 
 
   model = Conv_AE()
@@ -87,7 +100,7 @@ def main():
   for df in list_of_df:
       X_train = df[:400].drop(['anomaly', 'changepoint'], axis=1)
   
-      synth_data = get_synth_data_from_syntheizers(NON_ANOMALY,ANOMALY,ROUNDS,X_train.columns)
+      synth_data = get_synth_data_from_syntheizers(NON_ANOMALY,ANOMALY,ROUNDS,X_train.columns,model_0,model_1)
 
       StSc = StandardScaler()
       StSc.fit(synth_data)
