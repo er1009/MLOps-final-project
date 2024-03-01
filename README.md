@@ -1,5 +1,16 @@
 # MLOps-final-project
-
+## clone the git
+```bash
+git clone https://github.com/er1009/MLOps-final-project.git
+```
+## get inside the project
+```bash
+cd MLOps-final-project
+```
+## give the right permission to setup script
+```bash
+chmod u+x setup.sh
+```
 ## run the folowing for setup:
 ```bash
 ./setup.sh
