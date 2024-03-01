@@ -284,7 +284,7 @@ def main():
            }
 
   test_acc,test_f1score,test_cm,test_pred,model_lgb=lgb_train_predict(train_x,train_y,valid_x,valid_y,test_x,test_y,params=lgb_params,test_flag=True)
-  
+  model_lgb.save_model("./trained_models/model_lgbm_unifed")
   print('test_acc:' + str(test_acc))
   print('test_f1score:' + str(test_f1score))
   print('test_confusionMatrix')
