@@ -19,6 +19,7 @@ from sklearn.preprocessing import StandardScaler
 from gretel_synthetics.timeseries_dgan.dgan import DGAN
 from gretel_synthetics.timeseries_dgan.config import DGANConfig, OutputType
 import torch
+import pandas as pd
 N_STEPS = 60
 Q = 0.999 # quantile for upper control limit (UCL) selection
 NUMBER_OF_SAMPLES_TO_GENERATE = 10 ## Muiltiple by 60 to get the actual number of samples
