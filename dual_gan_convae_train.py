@@ -136,3 +136,6 @@ def main():
     predicted_outlier,
     metric='binary'
   )
+
+if __name__ == '__main__':
+  main()
