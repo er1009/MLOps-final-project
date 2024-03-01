@@ -1,8 +1,7 @@
 # MLOps-final-project
 ## Link to run in colab
-```bash
 https://colab.research.google.com/drive/1PpR79exZQ6LJ3qFf7b05tgoEcLrj_Naq?usp=sharing
-```
+
 ## clone the git
 ```bash
 git clone https://github.com/er1009/MLOps-final-project.git
