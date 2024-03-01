@@ -28,7 +28,7 @@ ANOMALY = 1 ## Muiltiple by 60 to get the actual number of samples
 ROUNDS = 2
 
 
-def get_synth_data(NUMBER_OF_SAMPLES_TO_GENERATE,cols):
+def get_synth_data(NUMBER_OF_SAMPLES_TO_GENERATE,cols,dgan_model):
     _, synthetic_features = dgan_model.generate_numpy(NUMBER_OF_SAMPLES_TO_GENERATE)
     synthetic_data = pd.DataFrame(synthetic_features.reshape(NUMBER_OF_SAMPLES_TO_GENERATE*60,8),columns=cols)
     return synthetic_data
@@ -82,7 +82,7 @@ def main():
   for df in list_of_df:
       X_train = df[:400].drop(['anomaly', 'changepoint'], axis=1)
   
-      synth_data = get_synth_data(NUMBER_OF_SAMPLES_TO_GENERATE,X_train.columns)
+      synth_data = get_synth_data(NUMBER_OF_SAMPLES_TO_GENERATE,X_train.columns,dgan_model)
       StSc = StandardScaler()
       StSc.fit(synth_data)
       synth_data = StSc.transform(synth_data)
