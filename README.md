@@ -28,3 +28,5 @@ python unified_gan_convae_train.py
 
 python unified_gan_lgbm_train.py
 ```
+Each python file train a specific model with a specific gan method.
+For lightgbm the trained model with the synthetic data is saved in trained_models folder.
