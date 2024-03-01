@@ -1,3 +1,4 @@
+pip install -r requirements.txt
 git clone https://github.com/gretelai/gretel-synthetics.git
 cd gretel-synthetics
 pip uninstall tensorflow-estimator
