@@ -19,6 +19,12 @@ from sklearn.preprocessing import StandardScaler
 from gretel_synthetics.timeseries_dgan.dgan import DGAN
 from gretel_synthetics.timeseries_dgan.config import DGANConfig, OutputType
 import torch
+N_STEPS = 60
+Q = 0.999 # quantile for upper control limit (UCL) selection
+NUMBER_OF_SAMPLES_TO_GENERATE = 10 ## Muiltiple by 60 to get the actual number of samples
+NON_ANOMALY = 2 ## Muiltiple by 60 to get the actual number of samples
+ANOMALY = 1 ## Muiltiple by 60 to get the actual number of samples
+ROUNDS = 2
 
 
 def get_synth_data(NUMBER_OF_SAMPLES_TO_GENERATE,cols):
@@ -50,8 +56,7 @@ def main():
                               index_col='datetime',
                               parse_dates=True)
 
-  N_STEPS = 60
-  Q = 0.999 # quantile for upper control limit (UCL) selection
+
 
 
   dgan_model = DGAN(DGANConfig(
@@ -70,10 +75,7 @@ def main():
 
   model = Conv_AE()
   # inference
-  NUMBER_OF_SAMPLES_TO_GENERATE = 10 ## Muiltiple by 60 to get the actual number of samples
-  NON_ANOMALY = 2 ## Muiltiple by 60 to get the actual number of samples
-  ANOMALY = 1 ## Muiltiple by 60 to get the actual number of samples
-  ROUNDS = 2
+
   
   predicted_outlier, predicted_cp = [], []
   for df in list_of_df:
@@ -128,3 +130,6 @@ def main():
     predicted_outlier,
     metric='binary'
   )
+
+if __name__ == '__main__':
+  main()
