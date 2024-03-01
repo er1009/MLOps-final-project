@@ -2,6 +2,7 @@ import sys
 sys.path.insert(0,'./tsad/tsad')
 from utils.evaluating.evaluating import evaluating
 import os
+import logging
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 sys.path.insert(0,'./SKAB/algorithms')
 import warnings
