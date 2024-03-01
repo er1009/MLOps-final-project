@@ -1,10 +1,10 @@
 # MLOps-final-project
 
-## run the foloowing for setup:
+## run the folowing for setup:
 ```bash
 ./setup.sh
 ```
-## run the foloowing for training with synthetic data:
+## run the folowing for training with synthetic data:
 ```bash
 python dual_gan_convae_train.py
 
