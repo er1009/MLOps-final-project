@@ -2,6 +2,16 @@ import sys
 sys.path.insert(0,'./tsad/tsad')
 from utils.evaluating.evaluating import evaluating
 import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+sys.path.insert(0,'./SKAB/algorithms')
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning)
+import tensorflow as tf
+tf.debugging.experimental.disable_dump_debug_info()
+tf.get_logger().setLevel('ERROR')
+tf.autograph.set_verbosity(3)
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+tf.get_logger().setLevel(logging.ERROR)
 from Conv_AE import Conv_AE
 import numpy as np
 from sklearn.preprocessing import StandardScaler
