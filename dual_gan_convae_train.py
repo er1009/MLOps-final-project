@@ -44,7 +44,7 @@ def get_synth_data_from_syntheizers(NON_ANOMALY_SAMPLES,ANOMALY_SAMPLES,ROUNDS,c
 
 def create_sequences(values, time_steps=N_STEPS):
     output = []
-    for i in range(len() - time_steps + 1):
+    for i in range(len(values) - time_steps + 1):
         output.append(values[i : (i + time_steps)])
     return np.stack(output)
 
